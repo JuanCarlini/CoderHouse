@@ -1,0 +1,28 @@
+<h1>Lista de productos</h1>
+<% if (listProd.length === 0) { %>
+    <h1> No hay productos</h1>
+<%} else { %>
+<div class="entry">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < listProd.length; i++) { %>
+                <tr>
+                    <td><%=listProd[i].id%></td>
+                    <td><%=listProd[i].title%></td>
+                    <td><%=listProd[i].price%></td>
+                    <td><img src="<%=listProd[i].thumbnail%>" alt="<%=listProd[i].title%>" width="25"></td>
+                </tr>
+            <% }  %>
+        </tbody>
+    </table>
+    <% } %>
+
+</div>

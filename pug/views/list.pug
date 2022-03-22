@@ -1,0 +1,19 @@
+h1(class="mt-4") Lista de productos
+if listProd == ""
+    h3 No hay productos
+else
+    table(class="table table-striped table-hover")
+        thead
+            tr
+                th(scope="col") id
+                th(scope="col") Nombre
+                th(scope="col") Precio
+                th(scope="col") Imagen 
+        tbody
+            each prod in listProd
+                tr
+                    th(scope="row")= prod.id
+                    td=prod.title
+                    td=prod.price 
+                    td
+                        img(src=prod.thumbnail, alt=prod.title, width="25")
