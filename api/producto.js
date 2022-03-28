@@ -18,7 +18,7 @@ class Products{
             const newProduct = {
                 title: product.title,
                 price: product.price,
-                thumbnail: product.url,
+                url: product.url,
                 id: this.id
             };
             this.products.push(newProduct)
@@ -30,10 +30,22 @@ class Products{
 
     getProductById(idProduct){
         try {
-            return this.products.find(product => product.id == idProduct);
+            return this.products.find(product => product.id == parseInt(idProduct));
         }catch(e) {
             throw new Error(`Se produjo un error al buscar el producto`);
         }
+    }
+
+    update(id, body){
+        const product = {
+            title: body.title,
+            price: body.price,
+            url: body.url,
+            id: id
+        } ;
+        const updateIndex = this.products.findIndex((producto) => producto.id == id);
+        this.products[updateIndex] = product;
+        return product;
     }
 
     deleteById(id) {
