@@ -1,9 +1,40 @@
-body{
-    background:#eee;
+* {
+    font-family: Raleway;
+    font-weight: 400;
+    color: black;
+    
+    
 }
+body{
+    background-image: url("../views/img/bg-dep.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+h1 {
+    text-align: center;
+    margin-top: 10px;
+}
+
+#formProd {
+    padding: 30px;
+    background: rgba( 255, 255, 255, 0.35 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 10.5px );
+    -webkit-backdrop-filter: blur( 10.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
 .box {
     position: relative;
-    background: #ffffff;
+    background: rgba( 255, 255, 255, 0.45 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
     border: 3px solid #051924;
     margin-top: 25px;
     margin-bottom: 20px;
@@ -51,7 +82,7 @@ body{
     overflow: auto;
 }
 .direct-chat-name {
-    color: blue;
+    color: black;
     font-weight: 600;
 }
 .direct-chat-timestamp {
@@ -75,5 +106,14 @@ body{
     border-bottom-left-radius: 3px;
     border-top: 1px solid #f4f4f4;
     padding: 10px;
-    background-color: #fff;
+    background-color: none;
+}
+
+.col-8 {
+    background: rgba( 255, 255, 255, 0.35 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 10.5px );
+    -webkit-backdrop-filter: blur( 10.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
 }

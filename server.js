@@ -1,42 +1,54 @@
-const express = require("express");
+const express = require('express');
+const { get } = require('express/lib/response');
 const { Server: HttpServer } = require("http");
-const { Server: IOServer} = require("socket.io");
-const Productos = require("./api/producto");
-const Historial = require("./api/historial");
+const { Server: IOServer } = require("socket.io");
+const Products = require("./src/products/Products");
+const { optionsMySQL } = require("./src/utils/optionsMySQL");
+const { optionsSQLite } = require("./src/utils/optionsSQLite");
+
+const tablaProductos = "products";
+const tablaMensajes = "messages";
 
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
-const storeProd = new Productos();
-const historial = new Historial();
 
-const myRoutes = require("./api/routes");
+const apiProductos = new Products(optionsMySQL, tablaProductos);
+const apiMensajes = new Products(optionsSQLite, tablaMensajes);
 
-app.use(express.static("public"));
-app.use(express.urlencoded({extended: true}));
+app.get('/', (req, res) => {res.render('index');})
+
+io.on("connection", async (socket) => {
+    console.log(`Nuevo cliente conectado ${socket.id}`);
+    socket.emit("products", await apiProductos.listAll());
+
+    socket.on("newProduct", async (product) => {
+      await apiProductos.save(product);
+
+      io.sockets.emit("products", await apiProductos.listAll());
+    });
+
+    socket.emit("messages", await apiMensajes.listAll());
+
+    socket.on("newMessage", async (msg) => {
+      msg.date = new Date().toLocaleString();
+      await apiMensajes.save(msg);
+
+      io.sockets.emit("messages", await apiMensajes.listAll());
+    });
+});
+
 app.use(express.json());
-app.use(myRoutes);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 app.set("views", "./public/views");
 
-io.on("connection", async(socket) => {
-    const message = await historial.loadMessage();
-    socket.emit("messages", message);
+const PORT = 8080;
 
-    socket.on("new-message", async data => {
-        await historial.saveMessage(data);
-        const msg2 = await historial.loadMessage();
-        io.sockets.emit("messages", msg2);
-    });
-
-    socket.emit("products", storeProd.productsAll);
-    
-    socket.on("newProduct", dataProduct => {
-        storeProd.saveProduct(dataProduct);
-        io.sockets.emit("productos", storeProd.productsAll);
-    });
+const server = httpServer.listen(PORT, () => {
+  console.log(`Servidor http escuchado en puerto ${server.address().port}`);
 });
 
-const PORT = 8080;
-httpServer.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`))
+server.on("error", (error) => console.error(`Error en servidor ${error}`));
