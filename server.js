@@ -5,6 +5,7 @@ const { Server: IOServer } = require("socket.io");
 const Products = require("./src/products/Products");
 const { optionsMySQL } = require("./src/utils/optionsMySQL");
 const { optionsSQLite } = require("./src/utils/optionsSQLite");
+const generateRandomProduct = require("./src/products/FakerProducts")
 
 const tablaProductos = "products";
 const tablaMensajes = "messages";
@@ -15,6 +16,13 @@ const io = new IOServer(httpServer);
 
 const apiProductos = new Products(optionsMySQL, tablaProductos);
 const apiMensajes = new Products(optionsSQLite, tablaMensajes);
+
+const listProd = generateRandomProduct(5)
+
+app.get('/api/productos-test', (req,res)=> {
+  res.render("fakeProducts", {listProd: listProd});
+})
+
 
 app.get('/', (req, res) => {res.render('index');})
 
