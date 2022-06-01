@@ -1,57 +1,42 @@
-import express from 'express'
-import session from 'express-session'
-import MongoStore from 'connect-mongo'
+import express from "express"
+import session from "express-session"
 import 'dotenv/config'
-import fkr from './class/fkr.js'
+import mongoose from "mongoose"
 
 const app = express()
 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-app.use(express.static('public'))
-app.set('view engine', 'ejs');
-app.set('views','./public/views');
+import passport from "passport";
+import { strategyLogin, strategySignup } from "./src/middlewares/passportLocal.js"
 
+passport.use('login', strategyLogin);
+passport.use('signup', strategySignup)
+
+import routes from './src/routes/routes.js'
+
+app.set('view engine', 'ejs')
+app.set('views', './src/views')
+
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
 
 app.use(session({
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGO
-    }),
-    secret: String(process.env.SECRET),
-    resave: false,
-    saveUninitialized: false,
+    secret: 'keyboard cat',
     cookie: {
-        maxAge: 60000
-    }
-}))
+        httpOnly: false,
+        secure: false,
+        maxAge: Number(process.env.TIEMPO_EXPIRACION)
+    },
+    rolling: true,
+    resave: true,
+    saveUninitialized: false
+}));
 
-app.get('/productos', (req,res)=> {
-    if(req.session.user){
-        const list = fkr()
-        res.render('products', {list})
-    } else {
-        res.redirect('/login')
-    }
-})
-app.get('/login' , (req,res)=> {
-    const {userName} = req.body
-    req.session.user = userName
-    res.render('login')
-})
-app.get('/logout', (req,res)=> {
-    const userName = req.session.user
-    req.session.destroy()
-    res.render('logout', {
-        userName
-    })
-})
-app.post('/login', (req,res)=> {
-    const {userName} = req.body
-    req.session.user = userName
-    res.redirect('/productos')
-})
+app.use(passport.initialize())
+app.use(passport.session())
 
+app.use('/', routes)
 
-app.listen(8080, ()=> {
-    console.log(`Server on http://localhost:8080`)
-});
+mongoose.connect(process.env.MONGO)
+
+const PORT = process.env.PORT
+app.listen(PORT, () => console.log(`http://localhost:${PORT}`))
