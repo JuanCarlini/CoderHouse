@@ -31,7 +31,8 @@ export const strategySignup = new Strategy({
     passReqToCallback: true
    },
     (req, username, password, done) => {
-        User.findOne({ 'username': username }, function (err, user) {
+      console.log(User.toString())
+      User.findOne({ username: username }, function (err, user) {
    
         if (err) {
           console.log('Error in SingUp: ' + err);
