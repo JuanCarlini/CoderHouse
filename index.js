@@ -24,7 +24,7 @@ app.use(session({
     cookie: {
         httpOnly: false,
         secure: false,
-        maxAge: Number(process.env.TIEMPO_EXPIRACION)
+        maxAge: Number(process.env.TIEMPO_EXPIRACION) * 1000
     },
     rolling: true,
     resave: true,
