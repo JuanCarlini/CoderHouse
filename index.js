@@ -2,6 +2,7 @@ import express from "express"
 import session from "express-session"
 import 'dotenv/config'
 import mongoose from "mongoose"
+import minimist from "minimist"
 
 const app = express()
 
@@ -38,5 +39,6 @@ app.use('/', routes)
 
 mongoose.connect(process.env.MONGO)
 
-const PORT = process.env.PORT
+const args = minimist(process.argv.slice(2))
+const PORT = args.puerto || 8080
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`))
