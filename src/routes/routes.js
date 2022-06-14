@@ -45,7 +45,7 @@ router.get('/info', (req,res)=> {
 })
 
     router.get('/random', (req, res) => {
-        let cant = req.query.cant || 100000000;
+        let cant = req.query.cant || 100;
         let passCant = ['' + cant + '']
         const child = fork('./random.js');
         child.send(passCant);

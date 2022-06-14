@@ -16,7 +16,7 @@ export const strategyLogin = new Strategy(
       User.findOne({ username }, (err, user) => {
         if (err) return done(err);
         if (!user) {
-          console.log('Usuario no encontrado: ' + username);
+          ('Usuario no encontrado: ' + username);
           return done(null, false);
         }
         if (!isValidPassword(user, password)) {
@@ -31,7 +31,6 @@ export const strategySignup = new Strategy({
     passReqToCallback: true
    },
     (req, username, password, done) => {
-      console.log(User.toString())
       User.findOne({ username: username }, function (err, user) {
    
         if (err) {

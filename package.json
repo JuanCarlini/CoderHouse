@@ -5,19 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
-  },
-  "repository": {
-    "url": "git+https://github.com/JuanCarlini/CoderHouse.git"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/JuanCarlini/CoderHouse/issues"
-  },
-  "homepage": "https://github.com/JuanCarlini/CoderHouse#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "child_process": "^1.0.2",
