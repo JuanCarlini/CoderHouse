@@ -3,6 +3,10 @@ import session from "express-session"
 import 'dotenv/config'
 import mongoose from "mongoose"
 import minimist from "minimist"
+import cluster from "cluster"
+import os from 'os'
+
+const numCPUs = os.cpus().length;
 
 const app = express()
 
@@ -37,8 +41,28 @@ app.use(passport.session())
 
 app.use('/', routes)
 
+
 mongoose.connect(process.env.MONGO)
 
 const args = minimist(process.argv.slice(2))
-const PORT = args.puerto || 8080
-app.listen(PORT, () => console.log(`http://localhost:${PORT}`))
+const PORT = args.puerto || 8080 
+const modoServer = args.modo || 'Fork'
+
+if (modoServer == 'CLUSTER') {
+    if(cluster.isPrimary){
+        console.log(`Master ${process.pid} is running`)
+        for (let i = 0; i < numCPUs; i++) {
+            cluster.fork();
+        }
+    
+        cluster.on('exit', (worker,code,signal)=>{
+            console.log(`Worker ${worker.proccess.pid} died`)
+        })
+        
+    } else {
+        app.listen(PORT, () => console.log(`http://localhost:${PORT}`))
+       console.log(`Worker ${process.pid} started`)
+    }
+} else {
+    app.listen(PORT, () => console.log(`http://localhost:${PORT}`))
+}
