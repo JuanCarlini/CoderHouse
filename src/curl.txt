@@ -1,0 +1,4 @@
+$ cur1-X GET http://localhost:8080/info
+{"arguments':["C:\\Program Files\\nodejs\\node.exe","C:\\Users\\Administrator\\Desktop\\tareas\\index.js"],"directory":"C:\\Use
+rs\Administrator\\Downloads\\tareas","so":"win32","nodeVersion":"16.15.1°,"totalMemory":76935168,"processid™:11216,"cantidadDec
+PUs":12}

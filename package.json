@@ -1,5 +1,5 @@
 {
-  "name": "tareas",
+  "name": "desafio-passport-mongodb",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,22 +11,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "artillery": "^2.0.0-18",
     "bcrypt": "^5.0.1",
-    "child-process": "^1.0.2",
+    "child_process": "^1.0.2",
     "cluster": "^0.7.7",
-    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
+    "fork": "^1.3.1",
     "log4js": "^6.5.2",
     "minimist": "^1.2.6",
     "mongoose": "^6.3.5",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0"
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^6.3.1"
   }
 }
